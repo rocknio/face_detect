@@ -11,7 +11,8 @@ __author__ = "Neo"
 
 def detect_faces(gray_frame):
     face_cascade = cv2.CascadeClassifier("/usr/local/share/OpenCV/haarcascades/haarcascade_frontalface_default.xml")
-    faces = face_cascade.detectMultiScale(gray_frame, 1.3, 5)
+    faces = face_cascade.detectMultiScale(gray_frame, scaleFactor=1.1, minNeighbors=4, minSize=(5, 5),
+                                          flags=cv2.CASCADE_SCALE_IMAGE)
     results = []
     for (x, y, width, height) in faces:
         results.append((x, y, x + width, y + height))
@@ -90,6 +91,7 @@ def picture_face_detect(file_name):
     # smiles = detect_smiles(gray)
     # draw_rectangle(img, smiles)
 
+    cv2.putText(img, "Faces Count: {}".format(len(faces)), (10, 20), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 0, 255), 2)
     cv2.imshow("dest_" + file_name, img)
     while True:
         key = cv2.waitKey(1)
